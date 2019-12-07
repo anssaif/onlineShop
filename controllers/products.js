@@ -3,6 +3,7 @@ const productModule = require('../models/product');
 const path = require('path');
 const fs = require('fs');
 
+const linkPath = path.join(__dirname, '../', 'data', 'product.txt'); 
 const itemList = productModule.prductAll;
 
 
@@ -18,8 +19,17 @@ exports.adminItemPost = (req, res)=> {
      const   dis = req.body.productDiscription;
    
   const productItem = new productModule.Product(prd, dis);
+  const productItemJson = JSON.stringify(productItem);
   itemList.push(productItem);
-  console.log(itemList[0].prduct);
+
+  fs.appendFile(linkPath, productItemJson, (err) => {
+      if(err) {
+          console.log(err);
+          }else {
+              console.log('successfuly write to file!!');
+          }
+  });
+
 
   res.redirect('/');
   };
