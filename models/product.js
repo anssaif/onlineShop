@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const newId = require('uniqid');
 
 const linkPath = path.join(__dirname, '../', 'data', 'product.json');
 
@@ -10,7 +11,7 @@ class Product {
         this.discription = discription;
     }
     save() {
-
+        this.id = newId();
         fs.readFile(linkPath, (err, findData) => {
             let products = [];
             if (err) {
@@ -37,8 +38,12 @@ class Product {
             }else {
             cb(JSON.parse(findData));}
         });
-    }
-}
+    };
+    static findById (list, itemId) {
+       return list.find( item => item.id === itemId );
+    };
+    
+};
 
 
 

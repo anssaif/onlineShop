@@ -9,31 +9,46 @@ const path = require('path');
 exports.adminItemGet = (req, res) => {
 
     res.render('add-product.ejs');
-    
+
 };
 
-exports.adminItemPost = (req, res)=> {
+exports.adminItemPost = (req, res) => {
 
-     const  prd = req.body.productName;
-     const   dis = req.body.productDiscription;
-     
-     const newItem = new Product(prd, dis);
+    const prd = req.body.productName;
+    const dis = req.body.productDiscription;
 
-     newItem.save();
+    const newItem = new Product(prd, dis);
 
-    
-     
-    
-  res.redirect('/');
-  };
+    newItem.save();
 
 
 
 
-exports.shopGet =  (req, res)=> {
+    res.redirect('/');
+};
 
-    // res.render('shop.ejs', {productList: productModule.productAll()});
-    Product.productAll(products=> {
-        res.render('shop.ejs', {productList: products});
+
+
+
+exports.shopGet = (req, res) => {
+
+
+    Product.productAll(products => {
+        res.render('shop.ejs', { productList: products });
     });
+
 };
+
+exports.getProductById = (req, res) =>{
+   const itemId = req.params.productId;
+   
+   
+   Product.productAll(products => {
+
+    const foundItem = Product.findById(products, itemId);
+    console.log(foundItem);
+    
+       
+   });
+
+}
