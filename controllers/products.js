@@ -1,10 +1,9 @@
-// const product = [{}];
-const productModule = require('../models/product');
+const Product = require('../models/product');
 const path = require('path');
-const fs = require('fs');
 
-const linkPath = path.join(__dirname, '../', 'data', 'product.txt'); 
-const itemList = productModule.prductAll;
+
+
+
 
 
 exports.adminItemGet = (req, res) => {
@@ -17,20 +16,14 @@ exports.adminItemPost = (req, res)=> {
 
      const  prd = req.body.productName;
      const   dis = req.body.productDiscription;
-   
-  const productItem = new productModule.Product(prd, dis);
-  const productItemJson = JSON.stringify(productItem);
-  itemList.push(productItem);
+     
+     const newItem = new Product(prd, dis);
 
-  fs.appendFile(linkPath, productItemJson, (err) => {
-      if(err) {
-          console.log(err);
-          }else {
-              console.log('successfuly write to file!!');
-          }
-  });
+     newItem.save();
 
-
+    
+     
+    
   res.redirect('/');
   };
 
@@ -39,8 +32,8 @@ exports.adminItemPost = (req, res)=> {
 
 exports.shopGet =  (req, res)=> {
 
-    res.render('shop.ejs', {productList: itemList});
-}
-
-
-// exports.productAdmin = product;
+    // res.render('shop.ejs', {productList: productModule.productAll()});
+    Product.productAll(products=> {
+        res.render('shop.ejs', {productList: products});
+    });
+};
