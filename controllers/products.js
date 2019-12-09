@@ -42,13 +42,11 @@ exports.shopGet = (req, res) => {
 exports.getProductById = (req, res) =>{
    const itemId = req.params.productId;
    
-   
-   Product.productAll(products => {
-
-    const foundItem = Product.findById(products, itemId);
-    console.log(foundItem);
+   Product.findById(itemId, product => {
+    console.log(product);
+   })
     
        
-   });
+   
 
 }

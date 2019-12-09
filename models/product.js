@@ -3,7 +3,16 @@ const path = require('path');
 const newId = require('uniqid');
 
 const linkPath = path.join(__dirname, '../', 'data', 'product.json');
+ 
 
+ function findMyProduct(cb)  {
+    fs.readFile(linkPath, (err, findData) => {
+        if(err) {
+            cb([]);
+        }else {
+        cb(JSON.parse(findData));}
+    });
+}
 
 class Product {
     constructor(p, discription) {
@@ -32,15 +41,14 @@ class Product {
 
     }
     static productAll(cb) {
-        return  fs.readFile(linkPath, (err, findData) => {
-            if(err) {
-                cb([]);
-            }else {
-            cb(JSON.parse(findData));}
-        });
+        return  findMyProduct(cb);
     };
-    static findById (list, itemId) {
-       return list.find( item => item.id === itemId );
+    static findById (itemId, cb) {
+       return findMyProduct(products => {
+          const product =  products.find( item => item.id === itemId );
+          cb(product);
+          });
+           
     };
     
 };
