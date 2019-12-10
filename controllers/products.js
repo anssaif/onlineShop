@@ -43,7 +43,7 @@ exports.getProductById = (req, res) =>{
    const itemId = req.params.productId;
    
    Product.findById(itemId, product => {
-    console.log(product);
+    res.render('shop.ejs', { productList: [product] })
    })
     
        
