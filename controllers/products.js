@@ -1,5 +1,7 @@
-const Product = require('../models/product');
+
 const path = require('path');
+const sequelize = require('sequelize');
+const Product = require('../models/product');
 
 
 
@@ -14,39 +16,39 @@ exports.adminItemGet = (req, res) => {
 
 exports.adminItemPost = (req, res) => {
 
-    const prd = req.body.productName;
-    const dis = req.body.productDiscription;
+    const product = req.body.productName;
+    const discription = req.body.productDiscription;
 
-    const newItem = new Product(prd, dis);
-
-    newItem.save();
-
-
-
-
-    res.redirect('/');
+    Product.create({
+        product: product,
+        discription: discription
+    })
+    .then(()=> {
+        console.log('product cteated to DB successfuly !!');
+        res.redirect('/');
+    })
+    .catch((err) => {console.log(err)});
+    
 };
 
-
+exports.shopDelete = (req, res) => {
+    const prodcutId = req.body.checkBox
+   Product.destroy(
+      { where: {id: prodcutId}})
+      .then(()=>console.log('itme deleted !!'))
+   .catch((err) => console.log(err));
+   
+    res.redirect('/');
+}
 
 
 exports.shopGet = (req, res) => {
 
-
-    Product.productAll(products => {
-        res.render('shop.ejs', { productList: products });
-    });
-
-};
-
-exports.getProductById = (req, res) =>{
-   const itemId = req.params.productId;
-   
-   Product.findById(itemId, product => {
-    res.render('shop.ejs', { productList: [product] })
-   })
-    
-       
-   
+ Product.findAll().then((products)=> {
+    res.render('shop.ejs', {productList: products}); 
+    res.redirect('/');    
+})
 
 }
+
+   

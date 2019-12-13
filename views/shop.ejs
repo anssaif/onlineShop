@@ -25,24 +25,26 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-
+                <th scope="col">ID</th>
                 <th scope="col">Product</th>
                 <th scope="col">Discription</th>
 
             </tr>
         </thead>
         <tbody>
-           
-                <% productList.forEach( Item=> {  %>
-                    <tr>
-                
-                            <td><%= Item.product %></td>
-                            <td><%= Item.discription %></td>
-            
-                        </tr>
-                    
-                <% }); %>
-       
+
+            <% productList.forEach( (Item, i)=> {  %>
+            <tr>
+                    <form  action="/delete" method="post">
+                    <td><%= i %></td>
+                    <td><input type="checkbox" onChange="this.form.submit()"
+                          value="<%= Item.id %>"  name="checkBox">    <%= Item.product %></td>
+                    <td><%= Item.discription %></td>
+                </form>
+            </tr>
+
+            <% }); %>
+
         </tbody>
     </table>
 
